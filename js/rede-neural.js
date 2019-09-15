@@ -281,6 +281,6 @@ function iniciar() {
 	}
 }
 
-iniciar();
+//iniciar();
 
 //Parte01();

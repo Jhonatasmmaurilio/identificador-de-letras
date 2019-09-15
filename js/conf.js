@@ -22,6 +22,9 @@ cd = 3;
 //epocas de treinamento
 epocas = 2000;
 
+//Guarda as entradas dos neuronios inicial
+entradasX = new Array(1, 1, 0);
+
 //Guarda os valores das arestas de X
 pesosV = new Array(
 				[0.1, 0, 0.1], [0.3, 0.1, 0.9], [0.5, 0.4, 1]
@@ -31,9 +34,6 @@ pesosV = new Array(
 pesosW = new Array(
 	[0.6, 0.3], [0.5, 0.8], [0.1, 0.3]
 );
-
-//Guarda as entradas dos neuronios inicial
-entradasX = new Array(1, 1, 0);
 
 //Guarda as saidas padrao
 saidasP = new Array(1, 1);
