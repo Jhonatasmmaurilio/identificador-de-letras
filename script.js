@@ -1,6 +1,7 @@
 var ta,
-		limiar,
+	limiar,
 	ps,
+	cd,
 	pesosX,
 	pesosZ,
 	saidasP,
@@ -15,7 +16,9 @@ ps = 2;
 //limiar
 e = 2.71;
 //taxa de aprendizagem
-ta  = 1;
+ta = 1;
+//casas deciamais
+cd = 3;
 
 //Guarda os valores das arestas de X
 pesosX = new Array(
@@ -43,10 +46,13 @@ entradasY = new Array();
 saidasZ = new Array();
 
 //guarda os cauculos de erro das saidas deY
-deltaY = new Array();
+deltaK = new Array();
 
 //guarda os cauculos de erro das saidas de Z
-deltaZ = new Array();
+deltaW = new Array();
+
+//Valores que serão utilizados no calculo da derivada
+deltaJ = new Array();
 
 /*
 A funcao le apenas um arquivo por vez
@@ -54,24 +60,24 @@ Executa os calculos das pesos entre X e Z
 Conjunto dos passos 3 e 4
 */
 function Parte01() {
-	var z_inx = 0;
+	var z_inj = 0;
 	var tam_z = entradasX.length;
 	var tam_pesosX = pesosX.length;
 
 	for (var c = 0; c < tam_z; c++) {
 		for (var l = 0; l < tam_pesosX; l++) {
-			z_inx += entradasX[l] * pesosX[l][c];
+			z_inj += entradasX[l] * pesosX[l][c];
 			//			console.log("entradasX[" + l + "]* pesosX[" + l + "][" + c + "]");
 		}
 
-		z_inx = z_inx.toFixed(3);
+		z_inj = z_inj.toFixed(cd);
 
-		//		console.log("==>Enviando para Z" + (c + 1) + ": " + z_inx);
-		console.log("Ativando: (" + z_inx + ") = " + FuncaoAtivacao(z_inx));
-		console.log("Z" + (c + 1) + ": " + FuncaoAtivacao(z_inx));
+		//		console.log("==>Enviando para Z" + (c + 1) + ": " + z_inj);
+		//		console.log("Ativando: (" + z_inj + ") = " + FuncaoAtivacao(z_inj));
+		//		console.log("Z" + (c + 1) + ": " + FuncaoAtivacao(z_inj));
 
-		entradasZ.push(FuncaoAtivacao(z_inx));
-		z_inx = 0;
+		entradasZ.push(FuncaoAtivacao(z_inj));
+		z_inj = 0;
 	}
 
 	console.log("Valores dos neuronios de Z")
@@ -85,70 +91,116 @@ function Parte01() {
 Execucao do passo 5
 */
 function Parte02() {
-	var y_inx = 0;
+	var y_ink = 0;
 	var tam_pesosZ = pesosZ.length;
 	var tam_saidas = ps;
-	var y_inx_ativado;
+	var y_ink_ativado;
 
 	for (var c = 0; c < tam_saidas; c++) {
 		for (var l = 0; l < tam_pesosZ; l++) {
-			y_inx += entradasZ[l] * pesosZ[l][c];
+			y_ink += entradasZ[l] * pesosZ[l][c];
 			//			console.log("entradasZ[" + l + "]* pesosZ[" + l + "][" + c + "]");
 		}
 
-		y_inx = y_inx.toFixed(3);
+		y_ink = y_ink.toFixed(cd);
 
-		y_inx_ativado = FuncaoAtivacao(y_inx);
-		
-		console.log("Ativando:(" + y_inx + ") = " + y_inx_ativado);
-		console.log("Y" + (c + 1) + ": " + y_inx_ativado);
+		y_ink_ativado = FuncaoAtivacao(y_ink);
 
-		saidasZ.push(y_inx);
-		entradasY.push(y_inx_ativado);
-		y_inx = 0;
+		//		console.log("Ativando:(" + y_ink + ") = " + y_ink_ativado);
+		//		console.log("Y" + (c + 1) + ": " + y_ink_ativado);
+
+		saidasZ.push(y_ink);
+		entradasY.push(y_ink_ativado);
+		y_ink = 0;
 	}
 
-	console.log("Valores dos neuronios de Y")
+	console.log("Valores dos neuronios de Y");
 	console.log(entradasY);
 	console.log("----------------------------");
-	
+
 	Parte03();
 }
 
 /*
 Execucao do passo 6
+Verifica os erros e popula deltaK
 */
-function Parte03(){
+function Parte03() {
 	console.log("Varificacao de erros de Y (DeltaK)");
-	
+
 	var tam_saida = saidasP.length;
-	
-	for(var c = 0; c < tam_saida; c++){
-		dY = (saidasP[c] - entradasY[c]) * Derivada(saidasZ[c]);
-			
-		deltaY.push(parseFloat(dY.toFixed(3)));
-		dY = 0;
+	var dK = 0;
+
+	for (var c = 0; c < tam_saida; c++) {
+		dK = (saidasP[c] - entradasY[c]) * Derivada(saidasZ[c]);
+
+		deltaK.push(parseFloat(dK.toFixed(cd)));
+		dK = 0;
 	}
-	
-	console.log(deltaY);
-	
-	var dZ= 0;
-	
-	var tam_z = pesosZ.length;//qtd linhas
-	var tam_dy = deltaY.length;
-	
-	for(var c = 0; c < tam_z; c++){
-			for(var l =0; l < tam_dy; l++){
-				dZ = ta * deltaY[l] * entradasZ[c];
-//				console.log("DeltaZ: " + dZ.toFixed(2));
-//				console.log(ta + " * " + deltaY[l] + " * " + entradasZ[c]);
-			}
-		
-			deltaZ.push(dZ);
-	}	
-	
-	console.log("DeltaW")
-	console.log(deltaZ);
+
+	console.log(deltaK);
+
+	var dW = 0;
+
+	var tam_z = pesosZ.length; //qtd linhas
+	var tam_dy = deltaK.length;
+
+	for (var c = 0; c < tam_z; c++) {
+		for (var l = 0; l < tam_dy; l++) {
+			dW = ta * deltaK[l] * entradasZ[c];
+			//				console.log("deltaW: " + dW.toFixed(cd));
+			//				console.log(ta + " * " + deltaK[l] + " * " + entradasZ[c]);
+		}
+
+		deltaW.push(parseFloat(dW.toFixed(cd)));
+	}
+
+	console.log("DeltaW (valores dos pesos entre Z e Y)")
+	console.log(deltaW);
+	console.log("----------------------------");
+
+	Parte04();
+}
+
+/*
+Executa o passo 07
+soma os pesos de W com os valore de deltaK
+*/
+function Parte04() {
+	var tam_j = entradasZ.length;
+	var delta_inj = 0;
+	var tam_y = entradasY.length;
+	var dJ = 0;
+
+	for (var l = 0; l < tam_j; l++) {
+		for (var c = 0; c < tam_y; c++) {
+			delta_inj += deltaK[c] * pesosZ[l][c];
+			//			console.log("deltaK[" + c + "] * pesosZ[" + l + "][" + c + "]");
+			//			console.log(deltaK[c] + "*" + pesosZ[l][c]);
+		}
+
+		deltaJ.push(parseFloat(delta_inj.toFixed(cd)));
+		delta_inj = 0;
+	}
+
+	console.log("Valores de DeltaJ");
+	console.log(deltaJ);
+
+	for (var j = 0; j < tam_j; j++) {
+		dJ = deltaJ[j] * (Derivada(entradasZ[j]));
+		dJ = parseFloat(dJ.toFixed(cd));
+		console.log(dJ);
+	}
+
+	var dV = 0;
+	var tam_i = pesosX.length;
+
+	for (var i = 0; i < tam_i; i++) {
+		for (var j = 0; j < tam_i; i++) {
+			dV = ta * dJ * entradasX[i];
+			console.log(dV);
+		}
+	}
 }
 
 function Derivada(x) {
@@ -158,7 +210,7 @@ function Derivada(x) {
 function FuncaoAtivacao(x) {
 	var sig = (1 / (1 + (Math.pow(e, -x))));
 
-	return parseFloat(sig.toFixed(3));
+	return parseFloat(sig.toFixed(cd));
 }
 
 Parte01();
