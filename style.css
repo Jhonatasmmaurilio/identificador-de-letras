@@ -1,0 +1,92 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	background: #263238;
+/*
+	background: rgb(42, 42, 51);
+	background: radial-gradient(circle, rgba(42, 42, 51, 1) 0%, rgba(25, 26, 33, 1) 100%);
+*/
+}
+
+.header {
+	padding: 10px;
+} 
+
+.conteudo header {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 30px;	
+}
+
+.container-tabs {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.container-tabs__content {
+	display: flex;
+	margin: 0 !important;
+}
+
+.container-tabs__content .tabs a{
+	font-weight: bold;
+	color: #FF4040;
+}
+
+.tabs-conteudo {
+	display: flex !important;
+}
+
+.testar-container {
+	display: flex;
+	justify-content: center;
+}
+
+.box {
+	display: flex;
+	background: grey;
+	padding: 10px;
+	margin: 10px;
+	width: 360px;
+	min-height: 360px;
+	justify-content: center;
+	align-items: center;
+}
+
+.box-arquivo {
+	display: flex;
+	flex-direction: column;
+	align-content: space-between;
+}
+
+.box-entrada {
+	background: white;
+	min-height: 80%;
+	width: 100%;
+	margin-bottom: 20px;
+	 resize: none;
+}
+
+.btn-comandos {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.btn-comandos .btn:first-child {
+	margin-right: 20px;
+}
+
+.box-resultado p{
+	font-weight: bold;
+	color: white;
+}
+
+.btn-group{
+	display: flex;
+	justify-content: center;
+}
