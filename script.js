@@ -7,7 +7,8 @@ var ta,
 	saidasP,
 	entradasZ,
 	entradasX,
-	entradasY;
+	entradasY,
+	epocas;
 
 
 //VARIAVEIS DE CONFIGURACAO
@@ -19,6 +20,8 @@ e = 2.71;
 ta = 1;
 //casas deciamais
 cd = 3;
+//epocas de treinamento
+epocas = 5;
 
 //Guarda os valores das arestas de X
 pesosX = new Array(
@@ -52,7 +55,13 @@ deltaK = new Array();
 deltaW = new Array();
 
 //Valores que serão utilizados no calculo da derivada
+deltaInJ = new Array();
+
+//Valores que serao utilizados para o calcula de deltaV
 deltaJ = new Array();
+
+//valores com os caulos de ajustes
+deltaV = new Array();
 
 /*
 A funcao le apenas um arquivo por vez
@@ -126,7 +135,7 @@ Execucao do passo 6
 Verifica os erros e popula deltaK
 */
 function Parte03() {
-	console.log("Varificacao de erros de Y (DeltaK)");
+	console.log("Valores de Dk");
 
 	var tam_saida = saidasP.length;
 	var dK = 0;
@@ -155,7 +164,7 @@ function Parte03() {
 		deltaW.push(parseFloat(dW.toFixed(cd)));
 	}
 
-	console.log("DeltaW (valores dos pesos entre Z e Y)")
+	console.log("DeltaW")
 	console.log(deltaW);
 	console.log("----------------------------");
 
@@ -170,7 +179,6 @@ function Parte04() {
 	var tam_j = entradasZ.length;
 	var delta_inj = 0;
 	var tam_y = entradasY.length;
-	var dJ = 0;
 
 	for (var l = 0; l < tam_j; l++) {
 		for (var c = 0; c < tam_y; c++) {
@@ -179,28 +187,37 @@ function Parte04() {
 			//			console.log(deltaK[c] + "*" + pesosZ[l][c]);
 		}
 
-		deltaJ.push(parseFloat(delta_inj.toFixed(cd)));
+		deltaInJ.push(parseFloat(delta_inj.toFixed(cd)));
 		delta_inj = 0;
 	}
 
-	console.log("Valores de DeltaJ");
-	console.log(deltaJ);
+	console.log("Valores de DeltainJ");
+	console.log(deltaInJ);
+
+	var dJ = 0;
 
 	for (var j = 0; j < tam_j; j++) {
-		dJ = deltaJ[j] * (Derivada(entradasZ[j]));
+		dJ = deltaInJ[j] * (Derivada(entradasZ[j]));
 		dJ = parseFloat(dJ.toFixed(cd));
-		console.log(dJ);
+		deltaJ.push(parseFloat(dJ.toFixed(cd)));
 	}
+
+	console.log(deltaJ);
 
 	var dV = 0;
 	var tam_i = pesosX.length;
 
 	for (var i = 0; i < tam_i; i++) {
-		for (var j = 0; j < tam_i; i++) {
+		for (var j = 0; j < tam_i; j++) {
 			dV = ta * dJ * entradasX[i];
-			console.log(dV);
+			console.log(ta + "*" + deltaJ[i] + "*" + entradasX[i]);
+			deltaV.push(parseFloat(dV.toFixed(cd)));
 		}
+
+		dV = 0;
 	}
+
+	console.log(deltaV);
 }
 
 function Derivada(x) {
