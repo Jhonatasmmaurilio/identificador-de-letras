@@ -2,14 +2,13 @@ var ta,
 	limiar,
 	ps,
 	cd,
-	pesosX,
-	pesosZ,
+	pesosV,
+	pesosW,
 	saidasP,
 	entradasZ,
 	entradasX,
 	entradasY,
 	epocas;
-
 
 //VARIAVEIS DE CONFIGURACAO
 //Padroes de saida
@@ -21,15 +20,15 @@ ta = 1;
 //casas deciamais
 cd = 3;
 //epocas de treinamento
-epocas = 5;
+epocas = 2;
 
 //Guarda os valores das arestas de X
-pesosX = new Array(
+pesosV = new Array(
 				[0.1, 0, 0.1], [0.3, 0.1, 0.9], [0.5, 0.4, 1]
 );
 
 //Guarda os valores das aresta de Z
-pesosZ = new Array(
+pesosW = new Array(
 	[0.6, 0.3], [0.5, 0.8], [0.1, 0.3]
 );
 
@@ -69,14 +68,16 @@ Executa os calculos das pesos entre X e Z
 Conjunto dos passos 3 e 4
 */
 function Parte01() {
+	console.log("Valores dos neuronios de Z")
+
 	var z_inj = 0;
 	var tam_z = entradasX.length;
-	var tam_pesosX = pesosX.length;
+	var tam_pesosV = pesosV.length;
 
-	for (var c = 0; c < tam_z; c++) {
-		for (var l = 0; l < tam_pesosX; l++) {
-			z_inj += entradasX[l] * pesosX[l][c];
-			//			console.log("entradasX[" + l + "]* pesosX[" + l + "][" + c + "]");
+	for (var j = 0; j < tam_z; j++) {
+		for (var i = 0; i < tam_pesosV; i++) {
+			z_inj += entradasX[i] * pesosV[i][j];
+			//			console.log("entradasX[" + i + "]* pesosV[" + i + "][" + j + "]");
 		}
 
 		z_inj = z_inj.toFixed(cd);
@@ -89,26 +90,27 @@ function Parte01() {
 		z_inj = 0;
 	}
 
-	console.log("Valores dos neuronios de Z")
 	console.log(entradasZ);
 	console.log("----------------------------");
 
-	Parte02();
+	return Parte02();
 }
 
 /*
 Execucao do passo 5
 */
 function Parte02() {
+	console.log("Valores dos neuronios de Y");
+
 	var y_ink = 0;
-	var tam_pesosZ = pesosZ.length;
-	var tam_saidas = ps;
+	var tam_j = pesosW.length;
+	var tam_k = ps; //total de saida
 	var y_ink_ativado;
 
-	for (var c = 0; c < tam_saidas; c++) {
-		for (var l = 0; l < tam_pesosZ; l++) {
-			y_ink += entradasZ[l] * pesosZ[l][c];
-			//			console.log("entradasZ[" + l + "]* pesosZ[" + l + "][" + c + "]");
+	for (var k = 0; k < tam_k; k++) {
+		for (var j = 0; j < tam_j; j++) {
+			y_ink += entradasZ[j] * pesosW[j][k];
+			//			console.log("entradasZ[" + j + "]* pesosW[" + j + "][" + k + "]");
 		}
 
 		y_ink = y_ink.toFixed(cd);
@@ -123,11 +125,10 @@ function Parte02() {
 		y_ink = 0;
 	}
 
-	console.log("Valores dos neuronios de Y");
 	console.log(entradasY);
 	console.log("----------------------------");
 
-	Parte03();
+	return Parte03();
 }
 
 /*
@@ -140,8 +141,8 @@ function Parte03() {
 	var tam_saida = saidasP.length;
 	var dK = 0;
 
-	for (var c = 0; c < tam_saida; c++) {
-		dK = (saidasP[c] - entradasY[c]) * Derivada(saidasZ[c]);
+	for (var k = 0; k < tam_saida; k++) {
+		dK = (saidasP[k] - entradasY[k]) * Derivada(saidasZ[k]);
 
 		deltaK.push(parseFloat(dK.toFixed(cd)));
 		dK = 0;
@@ -149,26 +150,31 @@ function Parte03() {
 
 	console.log(deltaK);
 
+	console.log("DeltaW");
+
 	var dW = 0;
 
-	var tam_z = pesosZ.length; //qtd linhas
-	var tam_dy = deltaK.length;
+	var tam_j = pesosW.length; //qtd linhas
+	var tam_dk = deltaK.length; //tamaho do deltaK
+	var arrT = new Array();
 
-	for (var c = 0; c < tam_z; c++) {
-		for (var l = 0; l < tam_dy; l++) {
-			dW = ta * deltaK[l] * entradasZ[c];
+	for (var j = 0; j < tam_j; j++) {
+		for (var k = 0; k < tam_dk; k++) {
+			dW = ta * deltaK[k] * entradasZ[j];
 			//				console.log("deltaW: " + dW.toFixed(cd));
-			//				console.log(ta + " * " + deltaK[l] + " * " + entradasZ[c]);
+			//				console.log(ta + " * " + deltaK[k] + " * " + entradasZ[j]);
+			arrT.push(parseFloat(dW.toFixed(cd)));
 		}
 
-		deltaW.push(parseFloat(dW.toFixed(cd)));
+		deltaW.push(arrT);
+		
+		arrT = new Array();
 	}
 
-	console.log("DeltaW")
 	console.log(deltaW);
 	console.log("----------------------------");
 
-	Parte04();
+	return Parte04();
 }
 
 /*
@@ -180,18 +186,19 @@ function Parte04() {
 	var delta_inj = 0;
 	var tam_y = entradasY.length;
 
-	for (var l = 0; l < tam_j; l++) {
-		for (var c = 0; c < tam_y; c++) {
-			delta_inj += deltaK[c] * pesosZ[l][c];
-			//			console.log("deltaK[" + c + "] * pesosZ[" + l + "][" + c + "]");
-			//			console.log(deltaK[c] + "*" + pesosZ[l][c]);
+	console.log("Valores de DeltaInJ");
+
+	for (var j = 0; j < tam_j; j++) {
+		for (var k = 0; k < tam_y; k++) {
+			delta_inj += deltaK[k] * pesosW[j][k];
+			//			console.log("deltaK[" + k + "] * pesosW[" + j + "][" + k + "]");
+			//			console.log(deltaK[k] + "*" + pesosW[j][k]);
 		}
 
 		deltaInJ.push(parseFloat(delta_inj.toFixed(cd)));
 		delta_inj = 0;
 	}
 
-	console.log("Valores de DeltainJ");
 	console.log(deltaInJ);
 
 	var dJ = 0;
@@ -202,22 +209,66 @@ function Parte04() {
 		deltaJ.push(parseFloat(dJ.toFixed(cd)));
 	}
 
+	console.log("Dj")
 	console.log(deltaJ);
 
+	console.log("Valores de DeltaV");
+	
 	var dV = 0;
-	var tam_i = pesosX.length;
+	var tam_i = pesosV.length;
+	var arrT = new Array();
 
 	for (var i = 0; i < tam_i; i++) {
 		for (var j = 0; j < tam_i; j++) {
 			dV = ta * dJ * entradasX[i];
-			console.log(ta + "*" + deltaJ[i] + "*" + entradasX[i]);
-			deltaV.push(parseFloat(dV.toFixed(cd)));
+			//			console.log(ta + "*" + deltaJ[i] + "*" + entradasX[i] + " = " + dV);
+			
+			arrT.push(parseFloat(dV.toFixed(cd)));
 		}
+		
+		deltaV.push(arrT);
+		arrT = new Array();
 
 		dV = 0;
 	}
-
+	
 	console.log(deltaV);
+	console.log("----------------------------");
+
+	return Parte05();
+}
+
+/*
+	Atualiza os pesos
+*/
+function Parte05() {
+	console.log("===========>NOVOS PESOS V");
+	console.log("pesos antigos");
+	console.log(pesosV);
+	
+	var tam_i = pesosV.length;
+	var tam_j = pesosW.length;
+	
+	for (var i = 0; i < tam_i; i++) {
+		for (var j = 0; j < tam_j; j++) {
+			pesosV[i][j] = deltaV[i][j];
+		}
+	}
+	
+	console.log(pesosV);
+	
+	console.log("===========>NOVOS PESOS W");
+	console.log("pesos antigos");
+	console.log(pesosW);
+	
+	var tam_k = ps;
+	for (var j = 0; j < tam_j; j++) {
+		for (var k = 0; k < tam_k; k++) {
+			pesosW[j][k] = deltaW[j][k];
+		}
+	}
+	
+	console.log(pesosW);
 }
 
 function Derivada(x) {
@@ -230,4 +281,14 @@ function FuncaoAtivacao(x) {
 	return parseFloat(sig.toFixed(cd));
 }
 
-Parte01();
+function iniciar() {
+	for(var i = 0; i < epocas; i++){
+		Parte01();
+		
+		console.log("_____EPOCA:" + i);
+	}		
+}
+
+iniciar();
+
+//Parte01();
