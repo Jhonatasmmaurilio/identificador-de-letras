@@ -20,7 +20,7 @@ ta = 1;
 //casas deciamais
 cd = 3;
 //epocas de treinamento
-epocas = 2;
+epocas = 10;
 
 //Guarda os valores das arestas de X
 pesosV = new Array(
@@ -68,6 +68,7 @@ Executa os calculos das pesos entre X e Z
 Conjunto dos passos 3 e 4
 */
 function Parte01() {
+//	console.log(pesosV);
 	console.log("Valores dos neuronios de Z")
 
 	var z_inj = 0;
@@ -93,7 +94,7 @@ function Parte01() {
 	console.log(entradasZ);
 	console.log("----------------------------");
 
-	return Parte02();
+	Parte02();
 }
 
 /*
@@ -126,9 +127,9 @@ function Parte02() {
 	}
 
 	console.log(entradasY);
-	console.log("----------------------------");
+//	console.log("----------------------------");
 
-	return Parte03();
+	Parte03();
 }
 
 /*
@@ -136,7 +137,7 @@ Execucao do passo 6
 Verifica os erros e popula deltaK
 */
 function Parte03() {
-	console.log("Valores de Dk");
+//	console.log("Valores de Dk");
 
 	var tam_saida = saidasP.length;
 	var dK = 0;
@@ -148,9 +149,9 @@ function Parte03() {
 		dK = 0;
 	}
 
-	console.log(deltaK);
+//	console.log(deltaK);
 
-	console.log("DeltaW");
+//	console.log("DeltaW");
 
 	var dW = 0;
 
@@ -167,14 +168,14 @@ function Parte03() {
 		}
 
 		deltaW.push(arrT);
-		
+
 		arrT = new Array();
 	}
 
-	console.log(deltaW);
-	console.log("----------------------------");
+//	console.log(deltaW);
+//	console.log("----------------------------");
 
-	return Parte04();
+	Parte04();
 }
 
 /*
@@ -186,8 +187,10 @@ function Parte04() {
 	var delta_inj = 0;
 	var tam_y = entradasY.length;
 
-	console.log("Valores de DeltaInJ");
+//	console.log("Valores de DeltaInJ");
 
+//	console.log(deltaK);
+//	console.log(pesosW);
 	for (var j = 0; j < tam_j; j++) {
 		for (var k = 0; k < tam_y; k++) {
 			delta_inj += deltaK[k] * pesosW[j][k];
@@ -199,7 +202,7 @@ function Parte04() {
 		delta_inj = 0;
 	}
 
-	console.log(deltaInJ);
+//	console.log(deltaInJ);
 
 	var dJ = 0;
 
@@ -209,11 +212,11 @@ function Parte04() {
 		deltaJ.push(parseFloat(dJ.toFixed(cd)));
 	}
 
-	console.log("Dj")
-	console.log(deltaJ);
+//	console.log("Dj")
+//	console.log(deltaJ);
 
-	console.log("Valores de DeltaV");
-	
+//	console.log("Valores de DeltaV");
+
 	var dV = 0;
 	var tam_i = pesosV.length;
 	var arrT = new Array();
@@ -222,20 +225,21 @@ function Parte04() {
 		for (var j = 0; j < tam_i; j++) {
 			dV = ta * dJ * entradasX[i];
 			//			console.log(ta + "*" + deltaJ[i] + "*" + entradasX[i] + " = " + dV);
-			
+
 			arrT.push(parseFloat(dV.toFixed(cd)));
 		}
-		
+
 		deltaV.push(arrT);
 		arrT = new Array();
 
 		dV = 0;
 	}
-	
-	console.log(deltaV);
+
+//	console.log(deltaV);
+	//	console.log(pesosV);
 	console.log("----------------------------");
 
-	return Parte05();
+	Parte05();
 }
 
 /*
@@ -243,32 +247,52 @@ function Parte04() {
 */
 function Parte05() {
 	console.log("===========>NOVOS PESOS V");
-	console.log("pesos antigos");
-	console.log(pesosV);
-	
+//	console.log("pesos antigos");
+//	console.log(pesosV);
+
 	var tam_i = pesosV.length;
 	var tam_j = pesosW.length;
-	
+
 	for (var i = 0; i < tam_i; i++) {
 		for (var j = 0; j < tam_j; j++) {
 			pesosV[i][j] = deltaV[i][j];
 		}
 	}
-	
+
+	deltaV = new Array();
+
 	console.log(pesosV);
-	
+
 	console.log("===========>NOVOS PESOS W");
-	console.log("pesos antigos");
-	console.log(pesosW);
-	
+//	console.log("pesos antigos");
+//	console.log(pesosW);
+
 	var tam_k = ps;
 	for (var j = 0; j < tam_j; j++) {
 		for (var k = 0; k < tam_k; k++) {
 			pesosW[j][k] = deltaW[j][k];
 		}
 	}
-	
+
+	deltaW = new Array();
+
 	console.log(pesosW);
+	
+	console.log("PADRAO DE SAIDA*****************************");
+	console.log(entradasY);
+
+	garbageColector();
+}
+
+function garbageColector() {
+	entradasZ = new Array();
+	entradasY = new Array();
+	saidasZ = new Array();
+	deltaK = new Array();
+	deltaW = new Array();
+	deltaInJ = new Array();
+	deltaJ = new Array();
+	deltaV = new Array();
 }
 
 function Derivada(x) {
@@ -282,11 +306,13 @@ function FuncaoAtivacao(x) {
 }
 
 function iniciar() {
-	for(var i = 0; i < epocas; i++){
+	for (var i = 0; i < epocas; i++) {
 		Parte01();
-		
-		console.log("_____EPOCA:" + i);
-	}		
+
+		console.log("___________________");
+		console.log("______EPOCA:" + i + "______");
+		console.log("___________________");
+	}
 }
 
 iniciar();
