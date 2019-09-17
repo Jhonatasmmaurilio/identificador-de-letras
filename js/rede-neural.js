@@ -37,24 +37,6 @@ var deltaJ = new Array();
 //valores com os caulos de ajustes
 var deltaV = new Array();
 
-//controla a leitura dos arquivos
-var leitura_completa = true;
-
-/*
-Popula as matrizes de V e W, com numeros randomicos entre 0 e 1
-Executao o passo 0
-*/
-function passo0() {
-	var arr = new Matrix(63, 63);
-	pesosV = arr.data;
-
-	var arr = new Matrix(63, 7);
-	pesosW = arr.data;
-
-	var saidaA = new Array(1, 0, 0, 0, 0, 0, 0);
-	saidasP = saidaA;
-}
-
 //testando a soma das entradas com os pesos
 //var t= "";
 //var sum = 0;
@@ -73,13 +55,32 @@ function passo0() {
 //	t = "";
 //}
 
+//FuncaoAtivacao(0.4);
+
+//Parte01();
+
+//function d(x) {
+//	//	var sig = (1 / (1 + (Math.pow(2.71, -(x)))));
+//	var r = (1 / 2) * (1 + fexp(x)) * (1 - fexp(x));
+//	return parseFloat(r.toFixed(cd));
+//}
+//
+//function fexp(x) {
+//	//	var sig = 1 / (1 + (Math.exp(-x)));
+//	var r = (2 / (1 + (Math.exp(x)))) - 1;
+//	return parseFloat(r.toFixed(cd));
+//}
+//
+//console.log(fexp(13.000));
+//console.log(Derivada(13.000));
+
 /*
 Executao o processo durante a epocas definidas
 Executao o passo 1
 */
 function passo01() {
 	for (var i = 0; i < epocas; i++) {
-		console.log("%cEPOCA: " + i, 'color:orange; font-weight: bold; text-decoration: underline');
+		console.log("%cEPOCA: " + i + "=============================================================================================", 'color:orange; font-weight: bold; text-decoration: underline');
 
 		passo02();
 	}
@@ -92,7 +93,7 @@ function passo01() {
 
 function passo02() {
 	var tam_dados = entradas.length;
-	//	var tam_dados = 2;
+	//	var tam_dados = 1;
 
 	for (var j = 0; j < tam_dados; j++) {
 		entradasX = JSON.parse(JSON.stringify(entradas[j]));
@@ -105,9 +106,8 @@ Executa os calculos das pesos entre X e Z
 Executao os passos 2,3 e 4
 */
 function passo03_04() {
-	leitura_completa = false;
 	console.log("%cValores dos neuronios de Z", "color: brown ; font-weight: bold");
-
+	
 	var z_inj = 0;
 	var tam_z = entradasX.length;
 	var tam_pesosV = pesosW.length;
@@ -121,12 +121,12 @@ function passo03_04() {
 			strPesoXZ += "(" + entradasX[i] + " * " + pesosV[i][j] + ") +";
 		}
 
-		//				console.log(strPesoXZ);
+		//		console.log(strPesoXZ + " = " + z_inj);
 		strPesoXZ = "";
 
 		z_inj = z_inj.toFixed(cd);
 
-		console.log("==>Z" + (j + 1) + ": " + "Ativando:(" + z_inj + ") = " + FuncaoAtivacao(z_inj));
+//		console.log("==>Z" + (j + 1) + ": " + "Ativando:(" + z_inj + ") = " + FuncaoAtivacao(z_inj));
 
 		entradasZ.push(FuncaoAtivacao(z_inj));
 		zInj.push(z_inj);
@@ -137,7 +137,7 @@ function passo03_04() {
 	//	console.log(pesosV);
 
 	//		console.log(entradasZ);
-	console.log("--------------------------------------------------------");
+//	console.log("--------------------------------------------------------");
 	passo05();
 }
 
@@ -157,12 +157,12 @@ function passo05() {
 	for (var k = 0; k < tam_k; k++) {
 		for (var j = 0; j < tam_j; j++) {
 			y_ink += entradasZ[j] * pesosW[j][k];
-			//						console.log("entradasZ[" + j + "] (" + entradasZ[j] + ")* pesosW[" + j + "][" + k + "] (" + pesosW[j][k] + ")");
+			//			console.log("entradasZ[" + j + "](" + entradasZ[j] + ") * pesosW[" + j + "][" + k + "](" + pesosW[j][k] + ")");
 
 			strPesoZY += "(" + entradasZ[j] + " * " + pesosW[j][k] + ") +";
 		}
 
-		//				console.log(strPesoZY);
+//		console.log(strPesoZY + " = " + y_ink);
 		strPesoZY = "";
 
 		y_ink = y_ink.toFixed(cd);
@@ -170,7 +170,7 @@ function passo05() {
 		saidasZ.push(y_ink);
 		entradasY.push(y_ink_ativado);
 
-		console.log("==>Y" + (k + 1) + ": Ativando:" + "(" + y_ink + ") = " + y_ink_ativado);
+//		console.log("==>Y" + (k + 1) + ": Ativando:" + "(" + y_ink + ") = " + y_ink_ativado);
 		y_ink = 0;
 	}
 
@@ -194,13 +194,13 @@ function passo06() {
 	for (var k = 0; k < tam_saida; k++) {
 		dK = (saidasP[k] - entradasY[k]) * Derivada(saidasZ[k]);
 
-		console.log("(saidasP[" + k + "](" + saidasP[k] + ") - entradasY[" + k + "](" + entradasY[k] + ")) * Derivada(saidasZ[" + k + "](" + saidasZ[k] + "))(" + Derivada(saidasZ[k]) + ") = " + dK.toFixed(cd));
+//		console.log("(saidasP[" + k + "](" + saidasP[k] + ") - entradasY[" + k + "](" + entradasY[k] + ")) * Derivada(saidasZ[" + k + "](" + saidasZ[k] + "))(" + Derivada(saidasZ[k]) + ") = " + dK.toFixed(cd));
 
 		deltaK.push(parseFloat(dK.toFixed(cd)));
 		dK = 0;
 	}
 
-	//	console.log(deltaK);
+	console.log(deltaK);
 	console.log("%cDeltaW:", "color:red");
 
 	var dW = 0;
@@ -211,9 +211,10 @@ function passo06() {
 	for (var j = 0; j < tam_j; j++) {
 		for (var k = 0; k < tam_dk; k++) {
 			dW = ta * deltaK[k] * entradasZ[j];
-			//				console.log("deltaW: " + dW.toFixed(cd));
-			//				console.log(ta + " * " + deltaK[k] + " * " + entradasZ[j]);
-			arrT.push(parseFloat(dW.toFixed(cd)));
+			dW = parseFloat(dW.toFixed(cd));
+//			console.log("deltaW: " + dW);
+//			console.log("dK:" + ta + " * " + deltaK[k] + " * " + entradasZ[j] + " = " + dW);
+			arrT.push(dW);
 		}
 
 		deltaW.push(arrT);
@@ -221,8 +222,7 @@ function passo06() {
 		arrT = new Array();
 	}
 
-		console.log(JSON.parse(JSON.stringify(deltaW)));
-	console.log("--------------------------------------------------------");
+//	console.log("--------------------------------------------------------");
 	passo07();
 }
 
@@ -244,8 +244,8 @@ function passo07() {
 			delta_inj += deltaK[k] * pesosW[j][k];
 			strDeltaInj += "(" + deltaK[k] + " * " + pesosW[j][k] + ") + ";
 		}
-		
-//		console.log(strDeltaInj + " = " + delta_inj);
+
+		//		console.log(strDeltaInj + " = " + delta_inj);
 		strDeltaInj = "";
 
 		deltaInJ.push(parseFloat(delta_inj.toFixed(cd)));
@@ -287,35 +287,46 @@ function passo07() {
 	}
 
 	console.log(JSON.parse(JSON.stringify(deltaV)));
+
 	//	console.log("----------------------------");
+
+	console.log("%cNOVOS PESOS W", "color:orange");
+	console.log("%cpesos antigos", "color:orange");
+	console.log(JSON.parse(JSON.stringify(pesosW)));
+
+	var tam_k = ps;
+	for (var j = 0; j < tam_j; j++) {
+		for (var k = 0; k < tam_k; k++) {
+			var novo = pesosW[j][k] + deltaW[j][k];
+			novo = novo;
+			pesosW[j][k] = pesosW[j][k] + deltaW[j][k];
+		}
+	}
+
+	console.log("%cpesos novos", "color:orange");
+	console.log(JSON.parse(JSON.stringify(pesosW)));
+
+	//	console.log("----------------------------");
+
 	console.log("%cNOVOS PESOS V", "color:orange");
-	console.log("pesos antigos");
-	
-	var pesosAntigo = JSON.parse(JSON.stringify(pesosV));
-	console.log(pesosAntigo);
+	console.log("%cpesos antigos", "color:orange");
+	console.log(JSON.parse(JSON.stringify(pesosV)));
 
 	var tam_i = pesosV.length;
 	var tam_j = pesosW.length;
 
 	for (var i = 0; i < tam_i; i++) {
 		for (var j = 0; j < tam_j; j++) {
-			pesosV[i][j] = deltaV[i][j];
+			var novo = pesosV[i][j] + deltaV[i][j];
+			novo = parseFloat(novo.toFixed(cd));
+			pesosV[i][j] = novo;
 		}
 	}
 
-	console.log("pesos novos");
+	console.log("%cpesos novos", "color:orange");
 	console.log(JSON.parse(JSON.stringify(pesosV)));
-	//	console.log(pesosV);
-	//	console.log("%cNOVOS PESOS W", "color:orange");
 
-	var tam_k = ps;
-	for (var j = 0; j < tam_j; j++) {
-		for (var k = 0; k < tam_k; k++) {
-			pesosW[j][k] = deltaW[j][k];
-		}
-	}
-
-	//	console.log(pesosW);
+	//	console.log("----------------------------");
 
 	console.log("%cPADRAO DE SAIDA", 'color: green');
 	console.log("%c" + entradasY, "color:blue");
@@ -328,7 +339,7 @@ function passo07() {
 Limpar as os arrays
 */
 function garbageColector() {
-	//	console.log("%cLimpando variaveis", "color: pink");
+	console.log("%cLimpando variaveis", "color: pink");
 
 	entradasZ = new Array();
 	entradasY = new Array();
@@ -345,8 +356,9 @@ function garbageColector() {
 Calculo de derivada
 */
 function Derivada(x) {
-	var r = FuncaoAtivacao(x) * (1 - FuncaoAtivacao(x));
-	return parseFloat(r.toFixed(cd));
+	var r = (1 / 2) * (1 + FuncaoAtivacao(x)) * (1 - FuncaoAtivacao(x));
+	r = parseFloat(r.toFixed(cd));
+	return r;
 }
 
 /*
@@ -354,8 +366,9 @@ Utiliza a funcao de sgmoide bipolar para ativacao
 */
 function FuncaoAtivacao(x) {
 	//		var sig = (1 / (1 + (Math.pow(e, -x))));
-	var sig = (2 / (1 + (Math.pow(e, -(x))))) - 1;
-	return sig;
+	//	var sig = (2 / (1 + (Math.pow(e, -(x))))) - 1;
+	var sig = (2 / (1 + (Math.exp(x)))) - 1;
+	return sig = parseFloat(sig.toFixed(cd));
 }
 
 //Executa o passo 01
@@ -366,7 +379,3 @@ function analizar() {
 }
 
 analizar();
-
-//FuncaoAtivacao(0.4);
-
-//Parte01();

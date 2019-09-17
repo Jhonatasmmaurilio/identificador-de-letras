@@ -1,5 +1,5 @@
 class Matrix {
-	constructor(rows, cols) {
+	constructor(rows, cols, limite) {
 		this.rows = rows;
 		this.cols = cols;
 
@@ -8,18 +8,17 @@ class Matrix {
 		for (var i = 0; i < rows; i++) {
 			var arr = [];
 			for (var j = 0; j < cols; j++) {
-				arr.push(parseFloat(Math.random().toFixed(1)));
+				arr.push(geraNumeros(limite[0],limite[1]));
 			}
 
 			this.data.push(arr);
 		}
 
-		function geraPesos() {
-			if (peso != undefined) {
-				return parseFloat(Math.random().toFixed(1));
-			} else {
-				return peso;
-			}
+		function geraNumeros(inferior, superior) {
+			var numPossibilidades = superior - inferior
+			var aleat = Math.random() * numPossibilidades
+
+			return parseFloat((parseInt(inferior) + aleat).toFixed(1));
 		}
 	}
 }
