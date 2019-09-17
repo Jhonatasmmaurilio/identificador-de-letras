@@ -91,8 +91,8 @@ function passo01() {
 }
 
 function passo02() {
-			var tam_dados = entradas.length;
-//	var tam_dados = 2;
+	var tam_dados = entradas.length;
+	//	var tam_dados = 2;
 
 	for (var j = 0; j < tam_dados; j++) {
 		entradasX = JSON.parse(JSON.stringify(entradas[j]));
@@ -111,22 +111,22 @@ function passo03_04() {
 	var z_inj = 0;
 	var tam_z = entradasX.length;
 	var tam_pesosV = pesosW.length;
-	var somaPesoXZ = "";
+	var strPesoXZ = "";
 
 	//passo 04
 	for (var j = 0; j < tam_z; j++) {
 		for (var i = 0; i < tam_pesosV; i++) {
 			z_inj += (entradasX[i] * pesosV[i][j]);
 			//			console.log("entradasX[" + i + "]* pesosV[" + i + "][" + j + "]");
-			somaPesoXZ += "(" + entradasX[i] + " * " + pesosV[i][j] + ") +";
+			strPesoXZ += "(" + entradasX[i] + " * " + pesosV[i][j] + ") +";
 		}
 
-		//		console.log(somaPesoXZ);
-		somaPesoXZ = "";
+		//				console.log(strPesoXZ);
+		strPesoXZ = "";
 
 		z_inj = z_inj.toFixed(cd);
 
-		//		console.log("==>Z" + (j + 1) + ": " + "Ativando:(" + z_inj + ") = " + FuncaoAtivacao(z_inj));
+		console.log("==>Z" + (j + 1) + ": " + "Ativando:(" + z_inj + ") = " + FuncaoAtivacao(z_inj));
 
 		entradasZ.push(FuncaoAtivacao(z_inj));
 		zInj.push(z_inj);
@@ -152,19 +152,25 @@ function passo05() {
 	var tam_j = pesosW.length;
 	var tam_k = ps; //total de saida
 	var y_ink_ativado;
+	var strPesoZY = "";
 
 	for (var k = 0; k < tam_k; k++) {
 		for (var j = 0; j < tam_j; j++) {
 			y_ink += entradasZ[j] * pesosW[j][k];
 			//						console.log("entradasZ[" + j + "] (" + entradasZ[j] + ")* pesosW[" + j + "][" + k + "] (" + pesosW[j][k] + ")");
+
+			strPesoZY += "(" + entradasZ[j] + " * " + pesosW[j][k] + ") +";
 		}
+
+		//				console.log(strPesoZY);
+		strPesoZY = "";
 
 		y_ink = y_ink.toFixed(cd);
 		y_ink_ativado = FuncaoAtivacao(y_ink);
 		saidasZ.push(y_ink);
 		entradasY.push(y_ink_ativado);
 
-		//		console.log("==>Y" + (k + 1) + ": Ativando:" + "(" + y_ink + ") = " + y_ink_ativado);
+		console.log("==>Y" + (k + 1) + ": Ativando:" + "(" + y_ink + ") = " + y_ink_ativado);
 		y_ink = 0;
 	}
 
@@ -187,14 +193,14 @@ function passo06() {
 
 	for (var k = 0; k < tam_saida; k++) {
 		dK = (saidasP[k] - entradasY[k]) * Derivada(saidasZ[k]);
-		
-		console.log("(saidasP[" + k + "](" + saidasP[k] + ") - entradasY[" + k + "](" + entradasY[k] + ")) * Derivada(saidasZ[" + k + "](" + saidasZ[k] + "))(" + Derivada(saidasZ[k]) + ") = " + dK);
-		
+
+		console.log("(saidasP[" + k + "](" + saidasP[k] + ") - entradasY[" + k + "](" + entradasY[k] + ")) * Derivada(saidasZ[" + k + "](" + saidasZ[k] + "))(" + Derivada(saidasZ[k]) + ") = " + dK.toFixed(cd));
+
 		deltaK.push(parseFloat(dK.toFixed(cd)));
 		dK = 0;
 	}
 
-	console.log(deltaK);
+	//	console.log(deltaK);
 	console.log("%cDeltaW:", "color:red");
 
 	var dW = 0;
@@ -215,7 +221,7 @@ function passo06() {
 		arrT = new Array();
 	}
 
-	console.log(deltaW);
+		console.log(JSON.parse(JSON.stringify(deltaW)));
 	console.log("--------------------------------------------------------");
 	passo07();
 }
@@ -228,15 +234,19 @@ function passo07() {
 	var tam_j = entradasZ.length;
 	var delta_inj = 0;
 	var tam_y = entradasY.length;
+	var strDeltaInj = "";
 
 	console.log("%cValores de DeltaInJ", "color:red");
+	//	console.log(JSON.parse(JSON.stringify(pesosW)));
 
 	for (var j = 0; j < tam_j; j++) {
 		for (var k = 0; k < tam_y; k++) {
 			delta_inj += deltaK[k] * pesosW[j][k];
-			//			console.log("deltaK[" + k + "] * pesosW[" + j + "][" + k + "]");
-			//			console.log(deltaK[k] + "*" + pesosW[j][k]);
+			strDeltaInj += "(" + deltaK[k] + " * " + pesosW[j][k] + ") + ";
 		}
+		
+//		console.log(strDeltaInj + " = " + delta_inj);
+		strDeltaInj = "";
 
 		deltaInJ.push(parseFloat(delta_inj.toFixed(cd)));
 		delta_inj = 0;
@@ -254,7 +264,7 @@ function passo07() {
 	}
 
 	console.log("%cValores de Dj", "color: red");
-	console.log(deltaJ);
+	console.log(JSON.parse(JSON.stringify(deltaJ)));
 
 	console.log("%cValores de DeltaV", "color: red");
 
@@ -276,12 +286,13 @@ function passo07() {
 		dV = 0;
 	}
 
-	console.log(deltaV);
+	console.log(JSON.parse(JSON.stringify(deltaV)));
 	//	console.log("----------------------------");
 	console.log("%cNOVOS PESOS V", "color:orange");
 	console.log("pesos antigos");
-	var pesosVantigo = JSON.parse(JSON.stringify(pesosV));
-	console.log(pesosVantigo);
+	
+	var pesosAntigo = JSON.parse(JSON.stringify(pesosV));
+	console.log(pesosAntigo);
 
 	var tam_i = pesosV.length;
 	var tam_j = pesosW.length;
@@ -292,8 +303,10 @@ function passo07() {
 		}
 	}
 
-	console.log(pesosV);
-	console.log("%cNOVOS PESOS W", "color:orange");
+	console.log("pesos novos");
+	console.log(JSON.parse(JSON.stringify(pesosV)));
+	//	console.log(pesosV);
+	//	console.log("%cNOVOS PESOS W", "color:orange");
 
 	var tam_k = ps;
 	for (var j = 0; j < tam_j; j++) {
@@ -302,7 +315,7 @@ function passo07() {
 		}
 	}
 
-	console.log(pesosW);
+	//	console.log(pesosW);
 
 	console.log("%cPADRAO DE SAIDA", 'color: green');
 	console.log("%c" + entradasY, "color:blue");

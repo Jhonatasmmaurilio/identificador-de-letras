@@ -42,11 +42,11 @@ var ta,
 //VARIAVEIS DE CONFIGURACAO
 //Padroes de saida
 ps = 7;//2
-//limiar
-e = 0.5;//1
+//limiar ou euler nao sei
+e = 2,71;//1
 //taxa de aprendizagem
 ta = 0.2;//2.71
 //casas deciamais
-cd = 3;
+cd = 5;
 //epocas de treinamento
 epocas = 1;
