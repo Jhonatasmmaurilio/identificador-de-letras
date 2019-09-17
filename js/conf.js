@@ -43,10 +43,10 @@ var ta,
 //Padroes de saida
 ps = 7;//2
 //limiar
-e = 0;//1
+e = 0.5;//1
 //taxa de aprendizagem
 ta = 0.2;//2.71
 //casas deciamais
-cd = 2;
+cd = 3;
 //epocas de treinamento
 epocas = 1;
