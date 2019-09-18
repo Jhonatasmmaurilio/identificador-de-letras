@@ -1,78 +1,43 @@
+var entradasX, pesosV, pesosW, saidasP, entradasZ, entradasY, zInj, saidasZ, deltaK, deltaW, deltaInJ, deltaJ, deltaV, padrao_final;
+
 //Guarda as entradas dos neuronios inicial
-var entradasX;
-
+entradasX;
 //Guarda os valores das arestas de X
-var pesosV;
-
+pesosV;
 //Guarda os valores das aresta de Z
-var pesosW;
-
+pesosW;
 //Guarda as saidas padrao
-var saidasP;
-
+saidasP;
 //Guarda as entradas que chegam nos neuronios das camada intermediaria
-var entradasZ = new Array();
-
+entradasZ = new Array();
 //Guarda as entradas que chegam nos neuronios das camada final
-var entradasY = new Array();
-
+entradasY = new Array();
 //Guard os valores nao ativados que chegam em Z
-var zInj = new Array();
-
+zInj = new Array();
 //Guarda as saida de Z sem a funcao de ativacao
-var saidasZ = new Array();
-
+saidasZ = new Array();
 //guarda os cauculos de erro das saidas deY
-var deltaK = new Array();
-
+deltaK = new Array();
 //guarda os cauculos de erro das saidas de Z
-var deltaW = new Array();
-
+deltaW = new Array();
 //Valores que serão utilizados no calculo da derivada
-var deltaInJ = new Array();
-
+deltaInJ = new Array();
 //Valores que serao utilizados para o calcula de deltaV
-var deltaJ = new Array();
-
+deltaJ = new Array();
 //valores com os caulos de ajustes
-var deltaV = new Array();
+deltaV = new Array();
 
-//testando a soma das entradas com os pesos
-//var t= "";
-//var sum = 0;
-//passo0();
-//entradasX = entradas[0];
-//
-//for(var j =0;j<1;j++){
-//	for(var i = 0;i < pesosW.length;i++){
-//		t += "(" + entradasX[i] + "*" + pesosV[i][j] + ") + ";
-//		sum = sum + (entradasX[i] * pesosV[i][j]);
-//	}
-//	console.log("n" + j + ": " + t);
-//	console.log(sum.toFixed(cd));
-//	sum = 0;
-//
-//	t = "";
-//}
+/*
+Popula as matrizes de V e W, com numeros randomicos entre 0 e 1
+Executao o passo 0
+*/
+function passo0() {
+	var arr = new Matrix(t_neuronios, t_camada_h, limiteP);
+	pesosV = arr.data;
 
-//FuncaoAtivacao(0.4);
-
-//Parte01();
-
-//function d(x) {
-//	//	var sig = (1 / (1 + (Math.pow(2.71, -(x)))));
-//	var r = (1 / 2) * (1 + fexp(x)) * (1 - fexp(x));
-//	return parseFloat(r.toFixed(cd));
-//}
-//
-//function fexp(x) {
-//	//	var sig = 1 / (1 + (Math.exp(-x)));
-//	var r = (2 / (1 + (Math.exp(x)))) - 1;
-//	return parseFloat(r.toFixed(cd));
-//}
-//
-//console.log(fexp(13.000));
-//console.log(Derivada(13.000));
+	var arr = new Matrix(t_camada_h, ps, limiteP);
+	pesosW = arr.data;
+}
 
 /*
 Executao o processo durante a epocas definidas
@@ -80,10 +45,15 @@ Executao o passo 1
 */
 function passo01() {
 	for (var i = 0; i < epocas; i++) {
-		console.log("%cEPOCA: " + i + "=============================================================================================", 'color:orange; font-weight: bold; text-decoration: underline');
+		console.log("%cEPOCA: " + i + "=============================================================================================", 'color:orange; font-weight: bold');
 
 		passo02();
 	}
+
+	console.log("%cPADRAO DE SAIDA", 'color: green');
+	console.log(padrao_final);
+
+	io(pesosV, pesosW);
 
 	//	console.log("%cPESO W:", "color:pink");
 	//	console.log(pesosW);
@@ -91,6 +61,10 @@ function passo01() {
 	//	console.log(pesosV);
 }
 
+/*
+Para o total de dados na entrada executa os passo03 e 04
+Executao os passos 2
+*/
 function passo02() {
 	var tam_dados = entradas.length;
 
@@ -100,6 +74,7 @@ function passo02() {
 		passo03_04();
 	}
 }
+
 /*
 Executa os calculos das pesos entre X e Z
 Executao os passos 2,3 e 4
@@ -289,9 +264,17 @@ function passo07() {
 
 	//	console.log("----------------------------");
 
-	console.log("%cNOVOS PESOS W", "color:orange");
+	passo08();
+}
+
+/*
+Ajustas os pesos
+Executa o passo 08
+*/
+function passo08() {
+	//	console.log("%cNOVOS PESOS W", "color:orange");
 	//	console.log("%cpesos antigos", "color:orange");
-	console.log(JSON.parse(JSON.stringify(pesosW)));
+	//	console.log(JSON.parse(JSON.stringify(pesosW)));
 
 	var tam_k = ps;
 	for (var j = 0; j < tam_j; j++) {
@@ -307,7 +290,7 @@ function passo07() {
 
 	//	console.log("----------------------------");
 
-	console.log("%cNOVOS PESOS V", "color:orange");
+	//	console.log("%cNOVOS PESOS V", "color:orange");
 	//	console.log("%cpesos antigos", "color:orange");
 	//	console.log(JSON.parse(JSON.stringify(pesosV)));
 
@@ -323,18 +306,18 @@ function passo07() {
 	}
 
 	//	console.log("%cpesos novos", "color:orange");
-	console.log(JSON.parse(JSON.stringify(pesosV)));
+	//	console.log(JSON.parse(JSON.stringify(pesosV)));
 
 	//	console.log("----------------------------");
 
-	console.log("%cPADRAO DE SAIDA", 'color: green');
-	console.log("%c" + entradasY, "color:blue");
+//	console.log("%cPADRAO DE SAIDA", 'color: green');
+//	console.log("%c" + entradasY, "color:blue");
+	padrao_final = JSON.parse(JSON.stringify(entradasY));
 
 	garbageColector();
 }
-
 /*
-Limpar as os arrays
+Limpa os arrays
 */
 function garbageColector() {
 	//	console.log("%cLimpando variaveis", "color: pink");
@@ -369,11 +352,53 @@ function FuncaoAtivacao(x) {
 	return sig = parseFloat(sig.toFixed(cd));
 }
 
-//Executa o passo 01
+/*
+Executa o passo 01
+*/
 function analizar() {
 	passo0();
 
 	passo01();
 }
 
-analizar();
+/*
+encarregado de se comunicar com o front
+*/
+function io(pesosV, pesosW) {
+	var str_pesoV, str_pesoW;
+
+	str_pesoV = organizaPesos(pesosV);
+	str_pesoW = organizaPesos(pesosW);
+
+	pesos_finais_v.html(str_pesoV);
+	pesos_finais_w.html(str_pesoW);
+	btn_pesos.show();
+}
+
+/*
+encarregado de se comunicar com o front
+*/
+function organizaPesos(peso) {
+	var tam_i, tam_j, str_arr;
+
+	tam_i = peso.length;
+	tam_j = peso[0].length;
+	str_arr = "[";
+
+	for (var i = 0; i < tam_i; i++) {
+		str_arr += "[";
+		for (var j = 0; j < tam_j; j++) {
+			str_arr += peso[i][j];
+
+			if (j != (tam_j - 1)) {
+				str_arr += ",";
+			}
+		}
+
+		str_arr += "]<br>"
+	}
+
+	str_arr += "]";
+
+	return str_arr;
+}

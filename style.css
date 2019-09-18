@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
 	height: 100%;
 }
 
 body {
 	background: #263238;
-/*
+	/*
 	background: rgb(42, 42, 51);
 	background: radial-gradient(circle, rgba(42, 42, 51, 1) 0%, rgba(25, 26, 33, 1) 100%);
 */
@@ -12,12 +13,16 @@ body {
 
 .header {
 	padding: 10px;
-} 
+}
+
+.header img {
+	width: 150px;
+}
 
 .conteudo header {
 	display: flex;
 	justify-content: center;
-	margin-bottom: 30px;	
+	margin-bottom: 30px;
 }
 
 .container-tabs {
@@ -32,7 +37,7 @@ body {
 	margin: 0 !important;
 }
 
-.container-tabs__content .tabs a{
+.container-tabs__content .tabs a {
 	font-weight: bold;
 	color: #FF4040;
 }
@@ -68,7 +73,7 @@ body {
 	min-height: 80%;
 	width: 100%;
 	margin-bottom: 20px;
-	 resize: none;
+	resize: none;
 	letter-spacing: 10px;
 }
 
@@ -82,12 +87,54 @@ body {
 	margin-right: 20px;
 }
 
-.box-resultado p{
+.box-resultado p {
 	font-weight: bold;
 	color: white;
 }
 
-.btn-group{
+.btn-group {
 	display: flex;
 	justify-content: center;
+}
+
+.treinar-container {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.comandos-group {
+	height: 400px;
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 10px;
+	background: #171823;
+	padding: 10px;
+}
+
+.btn-pesos {
+	display: none;
+	margin-top: 20px;
+}
+
+.treinar-form {
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 10px;
+	background: #171823;
+	padding: 10px;
+}
+
+.treinar-form .input-field label{
+	color: white;
+}
+
+.form-descricao {
+	margin-bottom: 20px;
 }

@@ -21,21 +21,13 @@
 			<ul class="tabs tab-demo container-tabs transparent col s6">
 				<li class="tab"><a href="#testar">Testar</a></li>
 
-				<li class="tab"><a href="#treinar">Treinar</a></li>
+				<li class="tab"><a class="active" href="#treinar">Treinar</a></li>
 			</ul>
-			
+
 			<div id="testar" class="col s12">
 				<div class="testar-container">
 					<div class="box-arquivo box blue-grey darken-3 card ">
-						<textarea class="box-entrada" id="area-codigo" name="" id="" cols="30" rows="10">...#...
-...#...
-..#.#..
-..#.#..
-.#...#.
-.#####.
-#.....#
-#.....#
-##...##</textarea>
+						<textarea class="box-entrada" id="area-codigo" name="" id="" cols="30" rows="10"></textarea>
 
 						<div class="btn-comandos">
 							<div class="btn-group">
@@ -60,17 +52,89 @@
 			</div>
 
 			<div id="treinar" class="col s12">
-				<p>Test 2</p>
+				<section class="treinar-container">
+					<div class="treinar-form">
+						<div class="form-descricao">
+							<h6>Preencha os campos abaixo para poder terinar a rede</h6>
+						</div>
+						<div class="row">
+							<form class="col s12">
+								<div class="row">
+									<div class="input-field col s6">
+										<input placeholder="63" id="n_entradas" type="number" min="0" class="validate">
+										<label for="n_entradas">Neurônios de entradas</label>
+									</div>
+									
+									<div class="input-field col s6">
+										<input id="n_intermediarios" class="validate" type="number" min="0">
+										<label for="n_intermediarios" >Neurônios intermediarios</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s6">
+										<input id="epocas" class="validate" type="number" min="0">
+										<label for="epocas" >Total de épocas</label>
+									</div>
+									
+									<div class="input-field col s6">
+										<input id="saidas" class="validate" type="number" min="0">
+										<label for="saidas" >Total de saídas</label>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="comandos-group">
+						<button class="js-treinar btn-large waves-effect red" type="submit" name="action">
+						TREINAR REDE <i class="material-icons right">settings_applications</i>
+					</button>
+
+						<a class="js-btn-pesos btn-pesos waves-effect waves-light btn modal-trigger white blue-grey-text darken-3" href="#modal-pesos">
+					ver pesos
+					</a>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<div id="modal-pesos" class="modal">
+			<div class="modal-content">
+				<h4>Pesos finais</h4>
+				<div class="pesos-finais">
+					<ul class="tabs tabs-fixed-width tab-demo transparent">
+						<li class="tab"><a class="active" href="#peso-v">Peso de V</a></li>
+						<li class="tab"><a href="#peso-w">Peso de W</a></li>
+					</ul>
+					<div id="peso-v" class="col s12">
+						<div class="js-pesos-finais-v">
+
+						</div>
+					</div>
+					<div id="peso-w" class="col s12">
+						<div class="js-pesos-finais-w">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">fechar</a>
 			</div>
 		</div>
 	</body>
 
 	<!--JavaScript at end of body for optimized loading-->
-	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="js/lib/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-	<script src="js/Matrix.js"></script>
+	<!--	inicializacoes materialize-->
+	<script src="js/materialize/inicializacoes.js"></script>
+	<!--	scripts gerais-->
 	<script src="js/script.js"></script>
+	<!--	configuracoes da rede neural-->
 	<script src="js/conf.js"></script>
+	<!--Gerador de matriz-->
+	<script src="js/Matrix.js"></script>
+	<!--	processamento da rede neural-->
 	<script src="js/rede-neural.js"></script>
 </body>
 
