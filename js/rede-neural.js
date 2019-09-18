@@ -27,15 +27,6 @@ deltaJ = new Array();
 //valores com os caulos de ajustes
 deltaV = new Array();
 
-function testarRede() {
-	entradasX = b3;
-
-	passo0();
-	passo03_04();
-
-	console.log("%cPADRAO DE SAIDA", 'color: green');
-	console.log(entradasY);
-}
 /*
 Popula as matrizes de V e W, com numeros randomicos entre 0 e 1
 Executao o passo 0
@@ -372,55 +363,4 @@ function FuncaoAtivacao(x) {
 	//	var sig = (2 / (1 + (Math.pow(e, -(x))))) - 1;
 	var sig = (2 / (1 + (Math.exp(-x)))) - 1;
 	return sig = parseFloat(sig.toFixed(cd));
-}
-
-/*
-Executa o passo 01
-*/
-function analizar() {
-	passo0();
-
-	passo01();
-}
-
-/*
-encarregado de se comunicar com o front
-*/
-function io(pesosV, pesosW) {
-	var str_pesoV, str_pesoW;
-
-	str_pesoV = organizaPesos(pesosV);
-	str_pesoW = organizaPesos(pesosW);
-
-	pesos_finais_v.html(str_pesoV);
-	pesos_finais_w.html(str_pesoW);
-	btn_pesos.show();
-}
-
-/*
-encarregado de se comunicar com o front
-*/
-function organizaPesos(peso) {
-	var tam_i, tam_j, str_arr;
-
-	tam_i = peso.length;
-	tam_j = peso[0].length;
-	str_arr = "[";
-
-	for (var i = 0; i < tam_i; i++) {
-		str_arr += "[";
-		for (var j = 0; j < tam_j; j++) {
-			str_arr += peso[i][j];
-
-			if (j != (tam_j - 1)) {
-				str_arr += ",";
-			}
-		}
-
-		str_arr += "],<br>"
-	}
-
-	str_arr += "]";
-
-	return str_arr;
 }
