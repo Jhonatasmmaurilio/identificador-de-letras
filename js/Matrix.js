@@ -20,11 +20,5 @@ class Matrix {
 
 			return parseFloat((parseInt(inferior) + aleat).toFixed(1));
 		}
-		
-		function retornaPeso() {
-			var arr = new Array();
-			
-//			arr = 
-		}
 	}
 }

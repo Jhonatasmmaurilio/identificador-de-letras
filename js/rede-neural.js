@@ -27,16 +27,22 @@ deltaJ = new Array();
 //valores com os caulos de ajustes
 deltaV = new Array();
 
+function testarRede() {
+	entradasX = b3;
+
+	passo0();
+	passo03_04();
+
+	console.log("%cPADRAO DE SAIDA", 'color: green');
+	console.log(entradasY);
+}
 /*
 Popula as matrizes de V e W, com numeros randomicos entre 0 e 1
 Executao o passo 0
 */
 function passo0() {
-	var arr = new Matrix(t_neuronios, t_camada_h, limiteP);
-	pesosV = arr.data;
-
-	var arr = new Matrix(t_camada_h, ps, limiteP);
-	pesosW = arr.data;
+	pesosV = pesoGv;
+	pesosW = pesoGw;
 }
 
 /*
@@ -66,12 +72,26 @@ Para o total de dados na entrada executa os passo03 e 04
 Executao os passos 2
 */
 function passo02() {
-	var tam_dados = entradas.length;
+	var tam_carga = entradas.length;
 
-	for (var j = 0; j < tam_dados; j++) {
-		//		console.log("%cLENDO ARQUIVO:" + j + "-----------------------------------", "color: blue; font-weight:bold");
-		entradasX = JSON.parse(JSON.stringify(entradas[j]));
-		passo03_04();
+	for (var i = 0; i < tam_carga; i++) { //para cada grupo
+		//		console.log("%cCarga: " + i, "color: blue");
+		var tam_grupo = entradas[1][1].length;
+		//		console.log(entradas[i][1]);
+		for (var j = 0; j < tam_grupo; j++) {
+			//			console.log(entradas[i][0]); //arquivo
+			//			console.log(entradas[i][1][j]); //arquivo
+
+			entradasX = JSON.parse(JSON.stringify(entradas[i][1][j]));
+			saidasP = JSON.parse(JSON.stringify(entradas[i][2]));
+
+			//		console.log("%cLENDO ARQUIVO:" + j + "-----------------------------------", "color: blue; font-weight:bold");
+			//			entradasX = JSON.parse(JSON.stringify(entradas[j]));
+
+			passo03_04();
+		}
+		console.log("%cCarga: " + i, "color: blue");
+		console.log(padrao_final);
 	}
 }
 
@@ -151,7 +171,9 @@ function passo05() {
 	//	console.log(entradasY);
 	//	console.log("--------------------------------------------------------");
 
-	passo06();
+	if (!modo_teste) {
+		passo06();
+	}
 }
 
 /*
@@ -310,8 +332,8 @@ function passo08() {
 
 	//	console.log("----------------------------");
 
-//	console.log("%cPADRAO DE SAIDA", 'color: green');
-//	console.log("%c" + entradasY, "color:blue");
+	//	console.log("%cPADRAO DE SAIDA", 'color: green');
+	//	console.log("%c" + entradasY, "color:blue");
 	padrao_final = JSON.parse(JSON.stringify(entradasY));
 
 	garbageColector();
@@ -395,7 +417,7 @@ function organizaPesos(peso) {
 			}
 		}
 
-		str_arr += "]<br>"
+		str_arr += "],<br>"
 	}
 
 	str_arr += "]";

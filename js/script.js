@@ -10,9 +10,14 @@ $(document).ready(function () {
 
 	btn_treinar.on('click', function () {
 		btn_pesos.hide();
-		analizar();
+
+		if (!modo_teste) {
+			analizar();
+		} else {
+			testarRede();
+		}
 	});
-	
+
 	btn_analisar.on('click', function () {
 		analisarCaracter();
 	});
@@ -34,7 +39,5 @@ $(document).ready(function () {
 				cod.push(0);
 			}
 		};
-		
-		console.log(cod);
 	}
 });
