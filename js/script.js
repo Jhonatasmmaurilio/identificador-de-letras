@@ -1,4 +1,4 @@
-var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste, print_letra;
+var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste, print_letra, porcentagem, loaders;
 
 $(document).ready(function () {
 	btn_pesos = $('.js-btn-pesos');
@@ -9,7 +9,10 @@ $(document).ready(function () {
 	area_cod = $('#area-codigo');
 	btn_letra = $(".js-btn-letra");
 	print_letra = $('.js-print-letra');
-	js_loader = $('.js-loader');
+	loader = $('.js-loader');
+	percent = $(".js-percent");
+	porcentagem = $('.js-porcentagem');
+	loaders = $('.js-loader-percent');
 
 	btn_treinar.on('click', function () {
 		btn_pesos.hide();
@@ -163,9 +166,9 @@ Com base no array de resultados, identifica a letra
 function identificaResultado(resultado) {
 	var limiar,pos,closest;
 	
-	limiar = 1;
-
 	console.log(resultado);
+	
+	limiar = 1;
 
 	closest = resultado.reduce(function (prev, curr) {
 		return (Math.abs(curr - limiar) < Math.abs(prev - limiar) ? curr : prev);
@@ -189,8 +192,23 @@ function identificaResultado(resultado) {
 		letra = "K";
 	}
 
+	print_letra.find("p").html("Letra");
 	print_letra.find("span").html(letra);
-	print_letra.find("p").html("Caracter semelhanta a:");
+	porcentagem.find('span').html('Taxa de semelhança');
+	
+	var tam = loaders.length;
+	
+	for(var i = 0; i < tam; i++){
+		var l = $(loaders[i]);
+		var r = resultado[i];
+		
+		r = (r > 0? r * 100: (-1)*(r * 100));
+		r = r.toFixed(2);
+		
+		l.removeClass('hide');
+		l.find('.loader-percent__letra span').html(r + "%");
+		l.find('.determinate').css({'width': (r) + '%'});
+	}
 }
 
 /*

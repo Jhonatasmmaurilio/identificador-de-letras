@@ -12,7 +12,7 @@ ta = 0.2;
 //casas deciamais
 cd = 3;
 //epocas de treinamento
-epocas = 1;
+epocas = 2000;
 //altera o limite de numeros randomigos para os pesos na primeira vez
 limiteP = new Array(-1, 1);
 //total de entradas X

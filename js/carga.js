@@ -42,12 +42,12 @@ k2 = new Array(1, -1, -1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, 1, -1, -1, 1,
 
 k3 = new Array(1, 1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, 1, 1, 1, -1, -1, 1, 1);
 
-entradas01 = new Array(["1"], [a1, a2, a3], [1, -1, -1, -1, -1, -1, -1]);
-entradas02 = new Array(["2"], [b1, b2, b3], [-1, 1, -1, -1, -1, -1, -1]);
-entradas03 = new Array(["3"], [c1, c2, c3], [-1, -1, 1, -1, -1, -1, -1]);
-entradas04 = new Array(["4"], [d1, d2, d3], [-1, -1, -1, 1, -1, -1, -1]);
-entradas05 = new Array(["5"], [e1, e2, e3], [-1, -1, -1, -1, 1, -1, -1]);
-entradas06 = new Array(["6"], [j1, j2, j3], [-1, -1, -1, -1, -1, 1, -1]);
-entradas07 = new Array(["7"], [k1, k2, k3], [-1, -1, -1, -1, -1, -1, 1]);
+entradas01 = new Array(["1"], [a1, a2, a3], [1, 0, 0, 0, 0, 0, 0]);
+entradas02 = new Array(["2"], [b1, b2, b3], [0, 1, 0, 0, 0, 0, 0]);
+entradas03 = new Array(["3"], [c1, c2, c3], [0, 0, 1, 0, 0, 0, 0]);
+entradas04 = new Array(["4"], [d1, d2, d3], [0, 0, 0, 1, 0, 0, 0]);
+entradas05 = new Array(["5"], [e1, e2, e3], [0, 0, 0, 0, 1, 0, 0]);
+entradas06 = new Array(["6"], [j1, j2, j3], [0, 0, 0, 0, 0, 1, 0]);
+entradas07 = new Array(["7"], [k1, k2, k3], [0, 0, 0, 0, 0, 0, 1]);
 
 entradas = [entradas01, entradas02, entradas03, entradas04, entradas05, entradas06, entradas07];
