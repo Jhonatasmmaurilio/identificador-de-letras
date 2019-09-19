@@ -1,4 +1,4 @@
-var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste;
+var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste, print_letra;
 
 $(document).ready(function () {
 	btn_pesos = $('.js-btn-pesos');
@@ -8,6 +8,8 @@ $(document).ready(function () {
 	btn_analisar = $('.js-analisar');
 	area_cod = $('#area-codigo');
 	btn_letra = $(".js-btn-letra");
+	print_letra = $('.js-print-letra');
+	js_loader = $('.js-loader');
 
 	btn_treinar.on('click', function () {
 		btn_pesos.hide();
@@ -111,8 +113,6 @@ function testarCaracter() {
 		}
 	};
 
-	console.log(cod);
-
 	if (cod.length != 63) {
 		M.toast({
 			html: 'Seu caracter deve ter dimensão 9x7!'
@@ -132,12 +132,13 @@ function testarRede(entrada_teste) {
 	passo0();
 	passo03_04();
 
-	console.log("%cPADRAO DE SAIDA", 'color: green');
-	console.log(entradasY);
-
+	//	console.log("%cPADRAO DE SAIDA", 'color: green');
+	//	console.log(entradasY);
 	resultado_teste = entradasY;
 
-	analiseResultado(resultado_teste);
+	//	analiseResultado(resultado_teste);
+	identificaResultado(resultado_teste);
+	garbageColector();
 }
 
 /*
@@ -154,6 +155,42 @@ function analiseResultado(resultado) {
 	}
 
 	console.log(arr);
+}
+
+/*
+Com base no array de resultados, identifica a letra
+*/
+function identificaResultado(resultado) {
+	var limiar,pos,closest;
+	
+	limiar = 1;
+
+	console.log(resultado);
+
+	closest = resultado.reduce(function (prev, curr) {
+		return (Math.abs(curr - limiar) < Math.abs(prev - limiar) ? curr : prev);
+	});
+
+	pos = resultado.indexOf(closest);
+
+	if (pos == 0) {
+		letra = "A";
+	} else if (pos == 1) {
+		letra = "B";
+	} else if (pos == 2) {
+		letra = "C";
+	} else if (pos == 3) {
+		letra = "D";
+	} else if (pos == 4) {
+		letra = "E";
+	} else if (pos == 5) {
+		letra = "J";
+	} else if (pos == 6) {
+		letra = "K";
+	}
+
+	print_letra.find("span").html(letra);
+	print_letra.find("p").html("Caracter semelhanta a:");
 }
 
 /*

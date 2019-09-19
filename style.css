@@ -26,7 +26,6 @@ body {
 }
 
 .container-tabs {
-	display: flex;
 	justify-content: center;
 	margin-top: 20px;
 	margin-bottom: 30px;
@@ -38,7 +37,6 @@ body {
 }
 
 .container-tabs__content .tabs a {
-	font-weight: bold;
 	color: #FF4040;
 }
 
@@ -49,6 +47,7 @@ body {
 .testar-container {
 	display: flex;
 	justify-content: center;
+	background: #171823;
 }
 
 .box {
@@ -94,8 +93,35 @@ body {
 }
 
 .box-resultado p {
-	font-weight: bold;
 	color: white;
+}
+
+.container-letra {
+	display: flex;
+	color: white;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+}
+
+.letra-identificada{
+	font-weight: lighter;
+	font-size: 200px;
+	text-transform: uppercase;
+	line-height: 1;
+	text-align: center;
+	width: 100%;
+}
+
+.loader {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.letra-identificada p{
+	font-size: 16px;
+	text-transform: lowercase;
 }
 
 .btn-group {
@@ -117,7 +143,6 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	margin: 10px;
 	background: #171823;
 	padding: 10px;
 }
@@ -137,7 +162,7 @@ body {
 	padding: 10px;
 }
 
-.treinar-form .input-field label{
+.treinar-form .input-field label {
 	color: white;
 }
 
@@ -155,10 +180,14 @@ body {
 
 .group-modelos .group-botoes {
 	display: flex;
-	justify-content: space-between;
 	margin-bottom: 10px;
+	width: 100%;
 }
 
-.lista-caracteres > a{
+.group-botoes a{
+	flex: 1;
+}
+
+.lista-caracteres > a {
 	margin-bottom: 10px;
 }
