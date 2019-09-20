@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
 	<body>
 		<div class="container conteudo">
 			<header class="col s12 header">
@@ -17,10 +16,10 @@
 			</header>
 
 			<div class="row">
-				<div class="col s6">
-					<ul class="tabs tabs-fixed-width container-tabs transparent ">
-						<li class="tab"><a class="active" href="#testar">Testar</a></li>
-						<li class="tab"><a href="#treinar">Treinar</a></li>
+				<div class="col s12 container-tabs">
+					<ul class="tabs tabs-fixed-width  transparent col s6">
+						<li class="tab col s3"><a class="active" href="#testar">Testar</a></li>
+						<li class="tab col s3"><a href="#treinar">Treinar</a></li>
 					</ul>
 				</div>
 			</div>
@@ -64,7 +63,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										B: <span></span>
@@ -75,7 +74,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										C: <span></span>
@@ -86,7 +85,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										D: <span></span>
@@ -97,7 +96,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										E: <span></span>
@@ -108,7 +107,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										J: <span></span>
@@ -119,7 +118,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="js-loader-percent loader-percent hide" data-letra="A">
 									<div class="js-percent loader-percent__letra">
 										K: <span></span>
@@ -130,7 +129,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
@@ -140,15 +139,24 @@
 			<div id="treinar" class="col s12">
 				<section class="treinar-container">
 					<div class="comandos-group blue-grey darken-3 testar-container">
+						<div class="config-container col s12">
+							<div class="col s12">
+								<div class="input-field col s12">
+									<input  id="epocas" type="number" class="white-text js-epocas-num">
+									<label for="epocas">Épocas</label>
+								</div>
+							</div>
+						</div>
 
 						<button class="js-treinar btn-large waves-effect red" type="submit" name="action">
-						TREINAR REDE 
-					</button>
+							TREINAR REDE 
+						</button>
 
 						<a class="js-btn-pesos btn-pesos waves-effect waves-light btn modal-trigger white blue-grey-text darken-3" href="#modal-pesos">
-					ver pesos
-					</a>
+							ver pesos
+						</a>
 					</div>
+
 					<div class="white-text">
 						<p>
 							<b>Descrição dos arquivos</b> <br> conf.js - Arquivo com as configurações da rede neural <br> redeNeura.js - Algoritimo backpropagation <br> carga.js - Arquvio com as cargas de dados que serão analizadas <br> pesosFinais - Arquivo para inserir os pesos após a rede finalizar o treinamento <br> Matriz.js - Gera matrizes para o pesos iniciais scripts.js - Scripts gerais <br>
@@ -280,6 +288,11 @@
 
 		<div class="modal-footer">
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+		</div>
+
+		<div class="bloqueio js-bloqueio hide">
+			<span>Aguarde...</span>
+			<small>Isso pode levar alguns minutos :(</small>
 		</div>
 	</body>
 

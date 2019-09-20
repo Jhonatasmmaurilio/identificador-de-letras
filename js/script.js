@@ -1,4 +1,4 @@
-var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste, print_letra, porcentagem, loaders;
+var pesos_finais, js_btn_pesos, btn_treinar, btn_analisar, area_cod, btn_letra, resultado_teste, print_letra, porcentagem, loaders, bloqueio, print_epocas;
 
 $(document).ready(function () {
 	btn_pesos = $('.js-btn-pesos');
@@ -13,12 +13,25 @@ $(document).ready(function () {
 	percent = $(".js-percent");
 	porcentagem = $('.js-porcentagem');
 	loaders = $('.js-loader-percent');
+	bloqueio = $('.js-bloqueio');
+	print_epocas = $('.js-epocas');
 
 	btn_treinar.on('click', function () {
+		epocas = $('.js-epocas-num').val();
+		epocas = parseInt(epocas);
 		btn_pesos.hide();
-
 		modo_teste = false;
-		analisar();
+
+		if (epocas != null && Number.isInteger(epocas)) {
+			bloqueio.removeClass('hide');
+			setTimeout(function () {
+				analisar();
+			}, 900);
+		} else {
+			M.toast({
+				html: 'Por favor defina o número de épocas'
+			});
+		}
 	});
 
 	btn_analisar.on('click', function () {
@@ -164,10 +177,10 @@ function analiseResultado(resultado) {
 Com base no array de resultados, identifica a letra
 */
 function identificaResultado(resultado) {
-	var limiar,pos,closest;
-	
+	var limiar, pos, closest;
+
 	console.log(resultado);
-	
+
 	limiar = 1;
 
 	closest = resultado.reduce(function (prev, curr) {
@@ -195,19 +208,21 @@ function identificaResultado(resultado) {
 	print_letra.find("p").html("Letra");
 	print_letra.find("span").html(letra);
 	porcentagem.find('span').html('Taxa de semelhança');
-	
+
 	var tam = loaders.length;
-	
-	for(var i = 0; i < tam; i++){
+
+	for (var i = 0; i < tam; i++) {
 		var l = $(loaders[i]);
 		var r = resultado[i];
-		
-		r = (r > 0? r * 100: (-1)*(r * 100));
+
+		r = (r > 0 ? r * 100 : (-1) * (r * 100));
 		r = r.toFixed(2);
-		
+
 		l.removeClass('hide');
 		l.find('.loader-percent__letra span').html(r + "%");
-		l.find('.determinate').css({'width': (r) + '%'});
+		l.find('.determinate').css({
+			'width': (r) + '%'
+		});
 	}
 }
 
@@ -231,6 +246,7 @@ function io(pesosV, pesosW) {
 	pesos_finais_v.html(str_pesoV);
 	pesos_finais_w.html(str_pesoW);
 	btn_pesos.show();
+	bloqueio.addClass('hide');
 }
 
 /*

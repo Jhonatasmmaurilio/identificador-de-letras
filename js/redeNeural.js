@@ -57,7 +57,7 @@ Executao o passo 1
 */
 function passo01() {
 	for (var i = 0; i < epocas; i++) {
-		console.log("%cEpoca:" , "color: orange")
+		console.log("%cEpoca:" , "color: orange");
 		passo02();
 	}
 
@@ -253,6 +253,7 @@ function passo08() {
 
 	garbageColector();
 }
+
 /*
 Limpa os arrays
 */
